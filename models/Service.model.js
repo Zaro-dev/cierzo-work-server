@@ -22,6 +22,6 @@ const serviceSchema = new Schema(
     }
 );
 
-const Service = model("Service", service);
+const Service = model("Service", serviceSchema);
 module.exports = Service;
 
