@@ -7,7 +7,7 @@ const router = require("express").Router();
 const tokenValidation = require("../middlewares/auth.middlewares.js")
 
 router.post("/signup", async (req,res,next) => {
-    const {fullName,username,email,password,isFreelancer} = req.body;
+    const {name,email,password} = req.body;
 
     if(!email || !password) {
         res.status(400).json({errorMessage: "Email y password son obligatorios"});
@@ -25,11 +25,9 @@ router.post("/signup", async (req,res,next) => {
         const saltedPassword = await bcrypt.hash(password, salt);
 
         await User.create({
-            fullName,
-            username,
+            name,
             email,
-            password: saltedPassword,
-            isFreelancer
+            password: saltedPassword
         })
         
     } catch (error) {
@@ -39,10 +37,10 @@ router.post("/signup", async (req,res,next) => {
 })
 
 router.post("/login", async (req,res,next) => {
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
-    if (!username || !password) {
-        res.status(400).json({ errorMessage: "Nombre de usuario y contraseña son obligatorios" });
+    if (!email || !password) {
+        res.status(400).json({ errorMessage: "Email y contraseña son obligatorios" });
         return;
       }
     
@@ -70,20 +68,24 @@ router.post("/login", async (req,res,next) => {
         const payload = {
           _id: foundUser._id,
           email: foundUser.email,
-          fullName: foundUser.fullName,
-          username: foundUser.username,
-          isFreelancer: foundUser.isFreelancer
+          name: foundUser.name
         };
     
         const authToken = jwt.sign(payload, process.env.SECRET_TOKEN, {
           algorithm: "HS256",
-          expiresIn: "7d",
+          expiresIn: "1d",
         });
     
         res.status(200).json({ authToken });
       } catch (error) {
         next(error);
       }
+});
+
+router.get("verify", tokenValidation, (req,res,next) => {
+  console.log(req.payload)
+
+  res.status(200).json(req.payload)
 })
 
 
