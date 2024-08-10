@@ -5,7 +5,7 @@ const cuentaSchema = new Schema({
     name: {
         type: String,
         required: [true, "Es necesario un nombre de cuenta"],
-        trim: true,
+        trim: true
     },
     user: {
         type: Schema.Types.ObjectId,

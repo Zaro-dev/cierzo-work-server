@@ -9,6 +9,10 @@ const ingresoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Cuenta"
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     description: String,
     categoria: String
 },
