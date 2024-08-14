@@ -1,3 +1,5 @@
+const transporter = require("../config/mailer.js")
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 
@@ -29,6 +31,14 @@ router.post("/signup", async (req,res,next) => {
             email,
             password: saltedPassword
         })
+
+        await transporter.sendMail({
+          from: '"Bienvenido 👻" <mariolazaroredolar@gmail.com>', // sender address
+          to: email, // list of receivers
+          subject: "Bienvenido ✔", // Subject line
+          text: "Bienvenido a Cierzo Finances, gracias por confiar en nosotros para llevar el control de tus gastos.", // plain text body
+          html: "<b>Hello world?</b>", // html body
+        });
         
     } catch (error) {
         console.log(error);
