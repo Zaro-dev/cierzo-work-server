@@ -31,6 +31,23 @@ router.get("/", tokenValidation, async (req, res, next) => {
     }
 });
 
+// Ruta GET para obtener una cuenta específica del usuario
+router.get("/:cuentaId", tokenValidation, async (req, res, next) => {
+    const { cuentaId } = req.params;
+  
+    try {
+      const cuenta = await Cuenta.findOne({ _id: cuentaId, user: req.payload._id });
+      if (!cuenta) {
+        return res.status(404).json({ message: "Cuenta no encontrada o no pertenece al usuario." });
+      }
+      res.status(200).json(cuenta);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error obteniendo la cuenta." });
+      next(error);
+    }
+  });
+
 // Ruta PUT para editar la cuenta de un usuario
 router.put("/:cuentaId", tokenValidation, async (req, res, next) => {
     try {

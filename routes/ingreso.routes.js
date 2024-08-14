@@ -45,7 +45,7 @@ router.get("/user", tokenValidation, async (req, res, next) => {
 });
 
 // Ruta GET para sacar los ingresos de una cuenta específica del usuario
-router.get("/cuenta/:cuentaId", tokenValidation, async (req, res, next) => {
+router.get("/cuentas/:cuentaId", tokenValidation, async (req, res, next) => {
     const { cuentaId } = req.params;
 
     try {
