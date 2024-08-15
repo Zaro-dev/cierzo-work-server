@@ -3,7 +3,7 @@ const Movimiento = require("../models/Movimiento.model.js");
 const tokenValidation = require("../middlewares/auth.middlewares.js");
 
 // Ruta GET para obtener los movimientos asociados a una cuenta específica del usuario
-router.get('/cuenta/:cuentaId', tokenValidation, async (req, res) => {
+router.get('/cuentas/:cuentaId', tokenValidation, async (req, res) => {
     try {
         const movimientos = await Movimiento.find({ 
             cuenta: req.params.cuentaId, 
