@@ -16,7 +16,7 @@ router.use("/ingresos", ingresoRouter)
 const gastoRouter = require("./gasto.routes.js")
 router.use("/gastos", gastoRouter)
 
-const transferenciaRouter = require("./transferencia.routes.js")
-router.use("/transferencias", transferenciaRouter)
+const movimientoRouter = require("./movimiento.routes.js")
+router.use("/movimientos", movimientoRouter)
 
 module.exports = router;
