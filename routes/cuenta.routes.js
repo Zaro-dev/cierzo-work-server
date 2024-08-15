@@ -4,17 +4,29 @@ const Cuenta = require("../models/Cuenta.model.js")
 
 const tokenValidation = require("../middlewares/auth.middlewares.js")
 
-// Ruta POST para crear una cuenta
-router.post("/", async (req, res, next) => {
-    console.log(req.body);
-    try {
-        const newCuenta = await Cuenta.create(req.body);
-        res.status(201).json({ message: "Cuenta creada con éxito", cuenta: newCuenta });
-    } catch (error) {
-        console.error("Error:", error); 
-        res.status(500).json({ message: "Error obteniendo info", error });
+// Ruta para crear una nueva cuenta
+router.post('/', tokenValidation, async (req, res) => {
+    const { name, cantidad } = req.body;
+  
+    // Verifica que los campos requeridos estén presentes
+    if (!name || cantidad === undefined) {
+      return res.status(400).json({ message: 'Nombre y cantidad son requeridos' });
     }
-});
+  
+    try {
+      // Se asocia la cuenta con el usuario autenticado
+      const newCuenta = await Cuenta.create({
+        name,
+        cantidad,
+        user: req.payload._id // Asocia la cuenta con el usuario autenticado usando el payload del token
+      });
+  
+      res.status(201).json(newCuenta);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al crear la cuenta' });
+    }
+  });
 
 // Ruta GET para obtener todas las cuentas de un usuario
 router.get("/", tokenValidation, async (req, res, next) => {

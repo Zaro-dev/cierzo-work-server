@@ -37,7 +37,7 @@ router.post("/signup", async (req,res,next) => {
           to: email, // list of receivers
           subject: "Bienvenido ✔", // Subject line
           text: "Bienvenido a Cierzo Finances, gracias por confiar en nosotros para llevar el control de tus gastos.", // plain text body
-          html: "<b>Hello world?</b>", // html body
+          html: "<b>Bienvenido a Cierzo Finances, gracias por confiar en nosotros para llevar el control de tus gastos.</b>", // html body
         });
         
     } catch (error) {
